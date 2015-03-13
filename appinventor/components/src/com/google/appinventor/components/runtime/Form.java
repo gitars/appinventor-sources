@@ -10,6 +10,7 @@
 package com.google.appinventor.components.runtime;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -43,6 +45,7 @@ import com.google.appinventor.components.annotations.DesignerComponent;
 import com.google.appinventor.components.annotations.DesignerProperty;
 import com.google.appinventor.components.annotations.PropertyCategory;
 import com.google.appinventor.components.annotations.SimpleEvent;
+import com.google.appinventor.components.annotations.SimpleFunction;
 import com.google.appinventor.components.annotations.SimpleObject;
 import com.google.appinventor.components.annotations.SimpleProperty;
 import com.google.appinventor.components.annotations.UsesPermissions;
@@ -757,6 +760,31 @@ public class Form extends Activity
     setTitle(title);
   }
 
+  
+  /**
+   * Add a component to the screen
+   */
+  @SimpleFunction(description = "Add a component to this screen")
+  public void AddComponentToScreen(Component component) {
+	Component newComponent = null;
+	Class<?> classType;
+	try {
+		classType = Class.forName(component.getClass().getName());
+		Constructor<?> ctor = classType.getConstructor(ComponentContainer.class);
+		newComponent = (Component) ctor.newInstance(new Object[] { this });
+	} catch (Exception e) {
+		// TODO: Handle error?
+	}
+	ComponentAddedToScreen(newComponent);
+  }
+  
+  /**
+   * Initialize event handler.
+   */
+  @SimpleEvent(description = "Screen starting")
+  public void ComponentAddedToScreen(Component component) {
+	EventDispatcher.dispatchEvent(this, "ComponentAddedToScreen", component);
+  }
 
   /**
    * AboutScreen property getter method.

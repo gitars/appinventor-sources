@@ -197,7 +197,7 @@ public final class BlockSelectorBox extends Box {
     Collections.sort(typeList);
     for (final String typeName : typeList) {
       TreeItem itemNode = new TreeItem(new HTML("<span>" + typesAndIcons.get(typeName)
-          + MESSAGES.textAnyComponentLabel()
+          + MESSAGES.textAnyComponentLabel() + "Yash "
           + TranslationDesignerPallete.getCorrespondingString(typeName) + "</span>"));
       SourceStructureExplorerItem sourceItem = new BlockSelectorItem() {
         @Override

@@ -132,8 +132,9 @@ Blockly.Component.buildComponentMap = function(warnings, errors, forRepl, compil
   // TODO: populate warnings, errors as we traverse the top-level blocks
 
   var blocks = Blockly.mainWorkspace.getTopBlocks(true);
+  console.log("starting....");
   for (var x = 0, block; block = blocks[x]; x++) {
-
+    console.log(block);
     // TODO: deal with unattached blocks that are not valid top-level definitions. Valid blocks
     // are events, variable definitions, or procedure definitions.
 
@@ -144,10 +145,15 @@ Blockly.Component.buildComponentMap = function(warnings, errors, forRepl, compil
       map.globals.push(block);
       // TODO: eventually deal with variable declarations, once we have them
     } else if (block.category == 'Component') {
-      var instanceName = block.instanceName;
+      var instanceName = block.isGeneric ? block.getInputTargetBlock("COMPONENT").instanceName : block.instanceName;
+      console.log("is this block an event", block.isGeneric);
       if(block.blockType != "event") {
+        console.log("no");
         continue;
       }
+      console.log("yes");
+      //console.log("event", block.isGeneric, block.getInputTargetBlock("COMPONENT"), block);
+
       if (!map.components[instanceName]) {
         map.components[instanceName] = [];  // first block we've found for this component
       }
@@ -158,6 +164,8 @@ Blockly.Component.buildComponentMap = function(warnings, errors, forRepl, compil
       map.components[instanceName].push(block);
     }
   }
+  console.log("...done");
+  console.log(map);
   return map;
 };
 

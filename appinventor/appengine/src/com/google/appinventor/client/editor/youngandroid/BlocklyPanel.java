@@ -882,6 +882,7 @@ public class BlocklyPanel extends HTMLPanel {
   }-*/;
 
   private static native void doShowGenericBlocks(String formName, String drawerName) /*-{
+    console.log("Yash was here " + drawerName);
     var myBlockly = $wnd.Blocklies[formName];
     myBlockly.Drawer.hide();
     myBlockly.Drawer.showGeneric(drawerName);

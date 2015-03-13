@@ -136,6 +136,7 @@ Blockly.Generator.prototype.allNestedComments = function(block) {
  *     operator order value.  Returns '' if block is null.
  */
 Blockly.Generator.prototype.blockToCode = function(block) {
+  console.log(block);
   if (!block) {
     return '';
   }

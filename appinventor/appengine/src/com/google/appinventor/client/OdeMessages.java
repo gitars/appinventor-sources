@@ -3735,6 +3735,14 @@ public interface OdeMessages extends Messages {
   @DefaultMessage("Initialize")
   @Description("")
   String InitializeEvents();
+  
+  @DefaultMessage("ComponentAddedToScreen")
+  @Description("")
+  String ComponentAddedToScreenEvents();
+  
+  @DefaultMessage("AddComponentToScreen")
+  @Description("")
+  String AddComponentToScreenEvents();
 
   @DefaultMessage("OtherScreenClosed")
   @Description("")

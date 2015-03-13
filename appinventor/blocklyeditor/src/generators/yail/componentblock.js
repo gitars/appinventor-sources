@@ -27,11 +27,16 @@ goog.provide('Blockly.Yail.componentblock');
  * @returns {Function} event code generation function with instanceName and eventName bound in
  */
 Blockly.Yail.component_event = function() {
+  console.log("component_event");
   var body = Blockly.Yail.statementToCode(this, 'DO', Blockly.Yail.ORDER_NONE);
   // TODO: handle deactivated block, null body
   if(body == ""){
     body = Blockly.Yail.YAIL_NULL;
   }
+
+
+  var instanceName = block.isGeneric ? block.getInputTargetBlock("COMPONENT").instanceName : this.getFieldValue("COMPONENT_SELECTOR");
+  console.log(block.isGeneric, block, instanceName);
 
 
   var code = Blockly.Yail.YAIL_DEFINE_EVENT
@@ -48,11 +53,16 @@ Blockly.Yail.component_event = function() {
     + Blockly.Yail.YAIL_SPACER
     + body
     + Blockly.Yail.YAIL_CLOSE_COMBINATION;
+
+  console.log(code);
   return code;
 }
 
 Blockly.Yail.component_method = function() {
+  console.log(this.isGeneric);
+  console.log(this.isGeneric ? this.typeName : this.instanceName);
   var methodHelperYailString = Blockly.Yail.methodHelper(this, (this.isGeneric ? this.typeName : this.instanceName), this.methodName, this.isGeneric);
+  console.log(methodHelperYailString);
   //if the method returns a value
   if(this.getMethodTypeObject().returnType) {
     return [methodHelperYailString, Blockly.Yail.ORDER_ATOMIC];
@@ -130,7 +140,6 @@ Blockly.Yail.genericMethodNoReturn = function(typeName, methodName) {
  * @returns {Function} method call generation function with instanceName and methodName bound in
  */
 Blockly.Yail.methodHelper = function(methodBlock, name, methodName, generic) {
-
 // TODO: the following line  may be a bit of a hack because it hard-codes "component" as the
 // first argument type when we're generating yail for a generic block, instead of using
 // type information associated with the socket. The component parameter is treated differently
